@@ -1,4 +1,4 @@
-import { RaceChart } from "./raceChart";
+import { RaceChart } from "./RaceChart";
 import { WorldMapChart } from "./WorldMapChart";
 
 export {

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { getActivities } from '@/store/stravaAPI/activitiesAPI';
 import { getRefreshToken } from "@/store/stravaAPI/token"
 import { WorldMapChart } from './charts';
@@ -36,7 +36,7 @@ const Dashboard = () => {
         Dashboard
       </h1>
       {activities.map(activity => 
-      <p>Year: {activity.start_date}</p>
+      <p key={activity.id}>Year: {activity.start_date}</p>
       )}
 
       <p className='text-blue-500'>
