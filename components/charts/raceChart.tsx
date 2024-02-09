@@ -1,4 +1,6 @@
-export const raceChart = () => {
+'use client'
+
+export const RaceChart = () => {
 
   //make a category dropdown:run, sailing, etc based on the user activites
   //from the selected category activities

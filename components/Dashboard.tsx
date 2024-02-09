@@ -1,14 +1,27 @@
 "use client"
 
-import React,{useEffect} from 'react';
-import { activitiesAPI } from "@/store/stravaAPI/activitiesAPI"
+import React, { useEffect } from 'react';
+import { getActivities } from '@/store/stravaAPI/activitiesAPI';
 import { getRefreshToken } from "@/store/stravaAPI/token"
+import { WorldMapChart } from './charts';
+import { useAppSelector } from '@/store/reduxHooks';
 
 const Dashboard = () => {
-useEffect(()=> {
-  activitiesAPI();
-  //getRefreshToken();
-},[])
+
+  useEffect(() => {
+    getActivities();
+    getRefreshToken();
+  }, [])
+
+  const activities = useAppSelector(state => state.activities.activities)
+  const tokenExpiration = useAppSelector(state => state.token.expirationTime)
+  const token = useAppSelector(state => state.token)
+
+  console.log(activities, "activities")
+  console.log(tokenExpiration, "tokenExpiration")
+  console.log(token, "token")
+
+
 
   return (
     <div>
@@ -28,6 +41,8 @@ useEffect(()=> {
       <p className='text-purple-400'>
         colour scheme
       </p>
+
+      <WorldMapChart />
     </div>
   )
 }
