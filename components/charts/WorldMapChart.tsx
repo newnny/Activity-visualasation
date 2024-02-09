@@ -7,13 +7,6 @@ export const WorldMapChart = () => {
   const activities = useAppSelector(state => state.activities.activities)
   const loading = useAppSelector(state => state.activities.loading)
 
-  useEffect(() => {
-    getActivities();
-    //getRefreshToken();
-  }, [])
-
-  console.log(activities, "activities")
-
   return (
     <>
       {loading ?

@@ -1,24 +1,35 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { getRefreshToken } from "../stravaAPI/token"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { getRefreshToken } from "../stravaAPI/token";
 
 type TokenState = {
   loading: boolean;
   refreshToken: string;
-  expirationTime: number|undefined;
+  expirationTime: number;
   accessToken: string;
-}
+};
 
-const initialState:TokenState = {
+const initialState: TokenState = {
   loading: false,
   refreshToken: "",
-  expirationTime: undefined,
+  expirationTime: new Date().valueOf(),
   accessToken: "",
-}
+};
 
 export const tokenSlice = createSlice({
   name: "token",
   initialState,
-  reducers: {},
+  reducers: {
+    updateToken: (
+      state,
+      action: PayloadAction<{
+        new_expirationTime: number;
+        new_accessToken: string;
+      }>
+    ) => {
+      (state.expirationTime = action.payload.new_expirationTime),
+        (state.accessToken = action.payload.new_accessToken);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getRefreshToken.pending, (state) => {
       state.loading = true;
@@ -39,3 +50,5 @@ export const tokenSlice = createSlice({
     });
   },
 });
+
+export const { updateToken } = tokenSlice.actions;

@@ -1,19 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getActivities } from "../stravaAPI/activitiesAPI";
-
-export interface ActivitiesInterface {
-  id: number;
-  sport_type: string;
-  name: string;
-  start_date: string;
-  distance: number;
-  average_speed: number;
-  max_speed: number;
-  map: {
-    id: string;
-    summary_polyline: string;
-  };
-}
+import { ActivitiesInterface } from "@/types";
 
 type activitiesState = {
   loading: boolean;
