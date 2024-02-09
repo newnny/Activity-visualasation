@@ -9,44 +9,32 @@ import { useAppSelector, useAppDispatch,  } from '@/store/reduxHooks';
 const currentTime = new Date().valueOf()
 
 const Dashboard = () => {
-  const [showRefreshBtn, setShowRefreshBtn] = useState<boolean>(false)
-  const [refreshToken, setRefreshToken] = useState<boolean>(false)
-
   const dispatch = useAppDispatch()
 
   const activities = useAppSelector(state => state.activities.activities)
   const tokenExpiration = useAppSelector(state => state.token.expirationTime)
-  const token = useAppSelector(state => state.token.accessToken)
-  console.log(token, "token")
 
   useEffect(() => {
     dispatch(getActivities());
+    dispatch(getRefreshToken());
   }, [])
 
   useEffect(() => {
-    if (currentTime > tokenExpiration) {
-      setShowRefreshBtn(true)
+    const updateData = async() => {
+      if (currentTime > tokenExpiration) {
+      await dispatch(getRefreshToken())
+      await dispatch(getActivities())
+      }
     }
+    updateData()
   }, [currentTime])
 
-  const handleClickGetRefreshToken = () => {
-    dispatch(getRefreshToken())
-    setRefreshToken(!refreshToken)
-  }
 
   return (
     <div>
       <h1 className='dashboard_title'>
         Dashboard
       </h1>
-      {showRefreshBtn &&
-        <div>
-          <p>Your token has been expired, please update it with clicking button</p>
-          <button onClick={handleClickGetRefreshToken}>
-            get refresh token
-          </button>
-        </div>
-      }
       {activities.map(activity => 
       <p>Year: {activity.start_date}</p>
       )}
