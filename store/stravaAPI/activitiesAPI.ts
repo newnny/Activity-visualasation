@@ -4,10 +4,17 @@ import { useAppSelector, useAppDispatch } from "../reduxHooks";
 
 const access_token = process.env.NEXT_PUBLIC_ACCESS_TOKEN;
 const apiURL =
-  "https://www.strava.com/api/v3/athlete/activities?page=5&per_page=100";
+  "https://www.strava.com/api/v3/athlete/activities?";
 
-export const getActivities = createAsyncThunk("activities/fetch", async () => {
-  const response = await fetch(apiURL, {
+type Period = {
+  before: number;
+  after: number
+}
+
+export const getActivities = createAsyncThunk("activities/fetch", async (period:Period) => {
+  var before = period.before
+  var after = period.after
+  const response = await fetch(`${apiURL}before=${before}&after=${after}page=5&per_page=100`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${access_token}`,
