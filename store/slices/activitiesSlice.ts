@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getActivities } from "../stravaAPI/activitiesAPI";
-import { ActivitiesInterface } from "@/types";
+import { ActivitiesInterface } from "@/types/types";
 
 type activitiesState = {
   loading: boolean;

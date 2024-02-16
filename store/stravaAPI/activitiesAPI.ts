@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ActivitiesInterface } from "@/types";
+import { ActivitiesInterface } from "@/types/types";
 import { useAppSelector, useAppDispatch } from "../reduxHooks";
 
 const access_token = process.env.NEXT_PUBLIC_ACCESS_TOKEN;
