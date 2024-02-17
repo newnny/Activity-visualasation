@@ -5,12 +5,13 @@ const clientSecret: string = process.env.NEXT_PUBLIC_CLIENT_SECRET as string;
 const refreshToken: string = process.env.NEXT_PUBLIC_REFRESH_TOKEN as string;
 const tokenURL = "https://www.strava.com/oauth/token";
 const TOKEN_ENDPOINT = `${tokenURL}?client_id=${clientId}&client_secret=${clientSecret}&grant_type=refresh_token&refresh_token=${refreshToken}`;
-const ATHLETES_ENDPOINT =
-  "https://www.strava.com/api/v3/athlete/activities?page=5&per_page=100";
+const ATHLETES_ENDPOINT = (time_period: string) => `https://www.strava.com/api/v3/athlete/activities?${time_period}&page=5&per_page=100`;
 
-export const POST = async (params: TokenBody) => {
+export const POST = async (req: Request) => {
+  const params:TokenBody = await req.json()
   var before = params.before
   var after = params.after
+
   try {
    const response = await fetch(TOKEN_ENDPOINT, {
       method: "POST",
@@ -23,7 +24,7 @@ export const POST = async (params: TokenBody) => {
     };
     if (reformattingTokenRes) {
       const accessToken = reformattingTokenRes.access_token;
-      const activityRes = await fetch(`${ATHLETES_ENDPOINT}`, {
+      const activityRes = await fetch(ATHLETES_ENDPOINT(`before=${before}&after=${after}`), {
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,
