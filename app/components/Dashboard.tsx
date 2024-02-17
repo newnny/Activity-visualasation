@@ -46,8 +46,6 @@ const Dashboard = () => {
   useEffect(() => {
     const updateData = async () => {
       if (currentTime > tokenExpiration) {
-        // await dispatch(getRefreshToken())
-        //await dispatch(getActivities(period))
       }
     }
     updateData()
@@ -60,9 +58,9 @@ const Dashboard = () => {
         Dashboard
       </h1>
       {activities.map(activity =>
-        <div>
-          <p key={activity.id}>Year: `${activities.length} activities`</p>
-          <p key={activity.id}>Year:{activity.start_date}</p>
+        <div key={activity.id}>
+          <p>Year: {`${activities.length} activities`}</p>
+          <p>Year:{activity.start_date}</p>
         </div>
       )}
 
