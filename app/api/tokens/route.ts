@@ -7,17 +7,10 @@ const tokenURL = "https://www.strava.com/oauth/token";
 const TOKEN_ENDPOINT = `${tokenURL}?client_id=${clientId}&client_secret=${clientSecret}&grant_type=refresh_token&refresh_token=${refreshToken}`;
 const ATHLETES_ENDPOINT =
   "https://www.strava.com/api/v3/athlete/activities?page=5&per_page=100";
-
-//trying to fetch api routes / route handlers in server components / getServerSideProps / getStaticProps.
-//You can't fetch api routes / route handlers in that way
-//because during next build there is no server running.
-//You can run the code in the api route directly in server components,
-//no indirection going to the route handler needed for that case,
-//same as trying to fetch api routes in pages
-
+  
 export const POST = async () => {
   try {
-    const response = await fetch(TOKEN_ENDPOINT, {
+   const response = await fetch(TOKEN_ENDPOINT, {
       method: "POST",
     });
     const tokenRes: Token = await response.json();
