@@ -1,13 +1,8 @@
 'use client'
 
 import React, { useEffect } from 'react';
-import { getActivities } from '@/store/stravaAPI/activitiesAPI';
-import { getRefreshToken } from "@/store/stravaAPI/token"
 import { WorldMapChart } from '../../components/charts';
 import { useAppSelector, useAppDispatch } from '@/store/reduxHooks';
-import { callStravaAPI } from '@/app/api/strava/route';
-import { getAccessToken } from '@/app/api/strava/route';
-import { POST } from '../api/tokens/route';
 
 const currentTime = new Date().valueOf()
 
@@ -22,12 +17,11 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    //dispatch(getActivities(period));
-    //dispatch(getRefreshToken());
     const fetchData = async () => {
       try {
         const res = await fetch('api/tokens', {
-          method: "POST"
+          method: "POST",
+          body: JSON.stringify(period)
         })
         if (res.ok) {
           const data = await res.json()

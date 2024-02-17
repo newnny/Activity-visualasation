@@ -7,8 +7,10 @@ const tokenURL = "https://www.strava.com/oauth/token";
 const TOKEN_ENDPOINT = `${tokenURL}?client_id=${clientId}&client_secret=${clientSecret}&grant_type=refresh_token&refresh_token=${refreshToken}`;
 const ATHLETES_ENDPOINT =
   "https://www.strava.com/api/v3/athlete/activities?page=5&per_page=100";
-  
-export const POST = async () => {
+
+export const POST = async (params: TokenBody) => {
+  var before = params.before
+  var after = params.after
   try {
    const response = await fetch(TOKEN_ENDPOINT, {
       method: "POST",

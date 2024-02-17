@@ -19,6 +19,6 @@ export interface ActivitiesInterface {
 }
 
 export type TokenBody = {
-  before: number;
   after: number;
+  before: number;
 };
