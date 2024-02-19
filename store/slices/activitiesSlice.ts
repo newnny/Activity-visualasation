@@ -38,19 +38,7 @@ export const activitySlice = createSlice({
         };
       }>
     ) => {
-      state.activities.push({
-        id: action.payload.id,
-        sport_type: action.payload.sport_type,
-        name: action.payload.name,
-        start_date: action.payload.start_date,
-        distance: action.payload.distance,
-        average_speed: action.payload.average_speed,
-        max_speed: action.payload.max_speed,
-        map: {
-          id: action.payload.map.id,
-          summary_polyline: action.payload.map.summary_polyline,
-        },
-      });
+      Object.assign(state.activities, action.payload)
     },
   },
   extraReducers: (builder) => {
@@ -71,3 +59,6 @@ export const activitySlice = createSlice({
     });
   },
 });
+
+
+export const { addActivities } = activitySlice.actions;

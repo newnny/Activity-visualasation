@@ -1,17 +1,17 @@
-import { Token, TokenBody, ActivitiesInterface } from "@/types/types";
+import { Token, TokenBody, ActivitiesInterface, TokenAndActivities } from "@/types/types";
 
 const clientId: string = process.env.NEXT_PUBLIC_CLIENT_ID as string;
 const clientSecret: string = process.env.NEXT_PUBLIC_CLIENT_SECRET as string;
 const refreshToken: string = process.env.NEXT_PUBLIC_REFRESH_TOKEN as string;
 const tokenURL = "https://www.strava.com/oauth/token";
 const TOKEN_ENDPOINT = `${tokenURL}?client_id=${clientId}&client_secret=${clientSecret}&grant_type=refresh_token&refresh_token=${refreshToken}`;
-const ATHLETES_ENDPOINT = (time_period: string) => `https://www.strava.com/api/v3/athlete/activities?${time_period}&page=5&per_page=100`;
+const athletesURL = "https://www.strava.com/api/v3/athlete/activities"
+const ATHLETES_ENDPOINT = (time_period: string) => {return `${athletesURL}?${time_period}&page=1&per_page=100`}
 
 export const POST = async (req: Request) => {
-  const params:TokenBody = await req.json()
-  var before = params.before
+  const params:TokenBody = await req.json();
   var after = params.after
-
+  var before = params.before
   try {
    const response = await fetch(TOKEN_ENDPOINT, {
       method: "POST",
@@ -24,7 +24,8 @@ export const POST = async (req: Request) => {
     };
     if (reformattingTokenRes) {
       const accessToken = reformattingTokenRes.access_token;
-      const activityRes = await fetch(ATHLETES_ENDPOINT(`before=${before}&after=${after}`), {
+      const time_period = `before=${before}&after=${after}`
+      const activityRes = await fetch(ATHLETES_ENDPOINT(time_period), {
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -49,8 +50,14 @@ export const POST = async (req: Request) => {
             },
           };
         });
-        return new Response(JSON.stringify(modifiedRes));
+        const tokenAndActivities:TokenAndActivities = {
+          token_expiring_date: reformattingTokenRes.expires_at,
+          activities: modifiedRes
+        }
+        return new Response(JSON.stringify(tokenAndActivities));
       }
+    } else {
+      throw new Error(`Failed to fetch tokens`);
     }
   } catch (err) {
     console.error(err);

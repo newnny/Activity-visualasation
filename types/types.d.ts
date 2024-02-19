@@ -1,9 +1,17 @@
+export interface TokenAndActivities {
+token_expiring_date: number;
+activities: ActivitiesInterface[]
+}
+export type TokenBody = {
+  after: number;
+  before: number;
+};
+
 export type Token = {
   expires_at: number;
   refresh_token: string;
   access_token: string;
 };
-
 export interface ActivitiesInterface {
   id: number;
   sport_type: string;
@@ -17,8 +25,3 @@ export interface ActivitiesInterface {
     summary_polyline: string;
   };
 }
-
-export type TokenBody = {
-  after: number;
-  before: number;
-};
