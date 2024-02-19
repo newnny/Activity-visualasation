@@ -1,3 +1,7 @@
+export type selectedDates = {
+  startDate: Date;
+  endDate: Date;
+}
 export interface TokenAndActivities {
 token_expiring_date: number;
 activities: ActivitiesInterface[]

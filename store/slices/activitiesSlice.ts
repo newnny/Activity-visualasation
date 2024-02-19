@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getActivities } from "../stravaAPI/activitiesAPI";
-import { ActivitiesInterface } from "@/types/types";
+import { ActivitiesInterface, TokenAndActivities } from "@/types/types";
 
 type activitiesState = {
   loading: boolean;
-  activities: ActivitiesInterface[];
+  user_activities: TokenAndActivities;
   //activities_run: ActivitiesInterface[];
   //activities_walk: ActivitiesInterface[];
   //activities_sail: ActivitiesInterface[];
@@ -12,14 +12,17 @@ type activitiesState = {
 
 const initialState: activitiesState = {
   loading: false,
-  activities: [],
+  user_activities: {
+    token_expiring_date: 0,
+    activities:[]
+  },
   //activities_run: [],
   //activities_walk: [],
   //activities_sail: [],
 };
 
 export const activitySlice = createSlice({
-  name: "activities",
+  name: "activityData",
   initialState,
   reducers: {
     addActivities: (
@@ -37,9 +40,7 @@ export const activitySlice = createSlice({
           summary_polyline: string;
         };
       }>
-    ) => {
-      Object.assign(state.activities, action.payload)
-    },
+    ) => {action.payload},
   },
   extraReducers: (builder) => {
     builder.addCase(getActivities.pending, (state) => {
@@ -47,7 +48,7 @@ export const activitySlice = createSlice({
     });
     builder.addCase(getActivities.fulfilled, (state, action) => {
       if (action.payload) {
-        state.activities = action.payload;
+        state.user_activities = action.payload;
         state.loading = false;
       } else {
         console.log("action.payload is null or undefined");
