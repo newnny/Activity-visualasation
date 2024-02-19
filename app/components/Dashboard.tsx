@@ -60,36 +60,40 @@ const Dashboard = () => {
   }
 
   return (
-    <div>
-      <h1 className='dashboard_title'>
-        Dashboard
-      </h1>
-      <DatePicker
-        value={date}
-        today={today}
-        onChange={handleValueChange}
-      />
-      {/*activities.map(activity =>
+    <div className="flex flex-row ">
+      <div className="flex basis-1/3 w-full justify-center px-5">
+        <DatePicker
+          value={date}
+          today={today}
+          onChange={handleValueChange}
+        />
+      </div>
+      <div className="flex basis-2/3 w-full px-5">
+        <h1 className='dashboard_title'>
+          Dashboard
+        </h1>
+        {/*activities.map(activity =>
         <div key={activity.id}>
           <p>Year: {`${activities.length} activities`}</p>
           <p>Year:{activity.start_date}</p>
         </div>
       )*/}
 
-      <p className='text-blue-500'>
-        colour scheme:
-      </p>
-      <p className='text-red-400'>
-        colour scheme
-      </p>
-      <p className='text-yellow-200'>
-        colour scheme
-      </p>
-      <p className='text-purple-400'>
-        colour scheme
-      </p>
+        <p className='text-blue-500'>
+          colour scheme:
+        </p>
+        <p className='text-red-400'>
+          colour scheme
+        </p>
+        <p className='text-yellow-200'>
+          colour scheme
+        </p>
+        <p className='text-purple-400'>
+          colour scheme
+        </p>
 
-      <WorldMapChart />
+        <WorldMapChart />
+      </div>
     </div>
   )
 }
