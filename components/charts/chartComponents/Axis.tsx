@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-
 interface AxisProps {
   strScale: d3.ScaleBand<string> | undefined;
   numScale: d3.ScaleLinear<number, number, never> | undefined;
@@ -14,9 +13,10 @@ interface AxisProps {
   yTicks?: number | undefined;
   width?: number | undefined;
   height?: number | undefined;
+  color: string | undefined
 }
 
-const Axis = ({ strScale, numScale, timeScale, transform, position, x, y, text, xTicks, yTicks, width, height }: AxisProps) => {
+const Axis = ({ strScale, numScale, timeScale, transform, position, x, y, text, xTicks, yTicks, width, height, color }: AxisProps) => {
   const ref = useRef<SVGGElement>(null);
 
   useEffect(() => {
@@ -31,10 +31,13 @@ const Axis = ({ strScale, numScale, timeScale, transform, position, x, y, text, 
             )
             .selectAll(".tick line")
             .attr("stroke", "#bbbbbb")
+            .attr("fill", "white")
         } else if (strScale) {
           d3.select(ref.current)
             .call(d3.axisBottom(strScale))
-            .selectAll("text").attr("transform", "translate(-10,17)rotate(-50)")
+            .selectAll("text")
+            .attr("transform", "translate(-10,17)rotate(-50)")
+            .attr("fill", "white")
         } else if (timeScale) {
           d3.select(ref.current)
             .call(d3.axisBottom(timeScale)
@@ -43,7 +46,8 @@ const Axis = ({ strScale, numScale, timeScale, transform, position, x, y, text, 
               .tickPadding(10)
             )
             .selectAll(".tick line")
-            .attr("stroke", "#bbbbbb");
+            .attr("stroke", "#bbbbbb")
+            .attr("fill", "white");
         }
       } else if (position === "left") {
         if (numScale) {
@@ -54,10 +58,12 @@ const Axis = ({ strScale, numScale, timeScale, transform, position, x, y, text, 
               .tickPadding(10)
             )
             .selectAll(".tick line")
-            .attr("stroke", "#bbbbbb");
+            .attr("stroke", "#bbbbbb")
+            .attr("fill", "white");
         } else if (strScale) {
           d3.select(ref.current)
             .call(d3.axisLeft(strScale))
+            .attr("fill", "white");
         } else if (timeScale) {
           d3.select(ref.current)
             .call(d3.axisLeft(timeScale)
@@ -66,7 +72,8 @@ const Axis = ({ strScale, numScale, timeScale, transform, position, x, y, text, 
               .tickPadding(10)
             )
             .selectAll(".tick line")
-            .attr("stroke", "#bbbbbb");
+            .attr("stroke", "#bbbbbb")
+            .attr("fill", "white");
         }
       }
     }
@@ -80,11 +87,10 @@ const Axis = ({ strScale, numScale, timeScale, transform, position, x, y, text, 
           x={x}
           y={y}
           style={{
-            fill: 'black',
+            fill: `${color}`,
             fontSize: 14,
             transform: position === 'left' ? 'rotate(-90deg)translate(0,0)' : 'translate(0,0)',
-            textAnchor: 'middle'
-          
+            textAnchor: 'middle',
           }}
         >
           {text}

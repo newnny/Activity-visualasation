@@ -5,8 +5,9 @@ import { ActivitiesInterface, TokenAndActivities } from "@/types/types";
 type activitiesState = {
   loading: boolean;
   user_activities: TokenAndActivities;
-  //activities_run: ActivitiesInterface[];
-  //activities_walk: ActivitiesInterface[];
+  activities_run: ActivitiesInterface[];
+  activities_walk: ActivitiesInterface[];
+  activities_ride: ActivitiesInterface[];
   //activities_sail: ActivitiesInterface[];
 };
 
@@ -14,10 +15,11 @@ const initialState: activitiesState = {
   loading: false,
   user_activities: {
     token_expiring_date: 0,
-    activities:[]
+    activities: [],
   },
-  //activities_run: [],
-  //activities_walk: [],
+  activities_run: [],
+  activities_walk: [],
+  activities_ride: [],
   //activities_sail: [],
 };
 
@@ -40,7 +42,9 @@ export const activitySlice = createSlice({
           summary_polyline: string;
         };
       }>
-    ) => {action.payload},
+    ) => {
+      action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getActivities.pending, (state) => {
@@ -48,8 +52,19 @@ export const activitySlice = createSlice({
     });
     builder.addCase(getActivities.fulfilled, (state, action) => {
       if (action.payload) {
-        state.user_activities = action.payload;
+        const all_data: TokenAndActivities = action.payload;
+        const activities: ActivitiesInterface[] = all_data.activities;
+        state.user_activities = all_data;
         state.loading = false;
+        state.activities_run = activities.filter(
+          (activity) => activity.sport_type === "Run"
+        );
+        state.activities_walk = activities.filter(
+          (activity) => activity.sport_type === "Walk"
+        );
+        state.activities_ride = activities.filter(
+          (activity) => activity.sport_type === "Ride"
+        );
       } else {
         console.log("action.payload is null or undefined");
       }
@@ -60,6 +75,5 @@ export const activitySlice = createSlice({
     });
   },
 });
-
 
 export const { addActivities } = activitySlice.actions;

@@ -1,7 +1,10 @@
+
 export type selectedDates = {
   startDate: Date;
   endDate: Date;
 }
+
+//Strava API response data type
 export interface TokenAndActivities {
 token_expiring_date: number;
 activities: ActivitiesInterface[]
@@ -28,4 +31,14 @@ export interface ActivitiesInterface {
     id: string;
     summary_polyline: string;
   };
+}
+
+//Chart types
+type dimensions = {
+  height: number;
+    width: number;
+    marginTop: number;
+    marginRight: number;
+    marginBottom: number;
+    marginLeft: number;
 }

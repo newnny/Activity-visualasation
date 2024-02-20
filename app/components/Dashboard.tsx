@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { WorldMapChart } from '../../components/charts';
+import { SimpleBarChar } from '@/components/charts/BarChart';
 import { useAppSelector, useAppDispatch } from '@/store/reduxHooks';
 import { DatePicker } from '@/components/DatePicker';
 import { getActivities } from '@/store/stravaAPI/activitiesAPI';
@@ -16,10 +16,11 @@ const Dashboard = () => {
   })
 
   const activities = useAppSelector(state => state.activities.user_activities.activities)
+  const run = useAppSelector(state => state.activities.activities_run)
+  const walk = useAppSelector(state => state.activities.activities_walk)
   const tokenExpiration = useAppSelector(state => state.activities.user_activities.token_expiring_date)
-  //console.log(activities, "activities")
-
   const dispatch = useAppDispatch()
+
   const period = {
     after: Math.floor(date.startDate.getTime() / 1000.0),
     before: Math.floor(date.endDate.getTime() / 1000.0)
@@ -60,8 +61,11 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="flex flex-row ">
+    <div className="flex flex-row">
       <div className="flex basis-1/3 w-full justify-center px-5">
+        <h1 className='dashboard_title'>
+          Dashboard
+        </h1>
         <DatePicker
           value={date}
           today={today}
@@ -69,30 +73,47 @@ const Dashboard = () => {
         />
       </div>
       <div className="flex basis-2/3 w-full px-5">
-        <h1 className='dashboard_title'>
-          Dashboard
-        </h1>
-        {/*activities.map(activity =>
-        <div key={activity.id}>
-          <p>Year: {`${activities.length} activities`}</p>
-          <p>Year:{activity.start_date}</p>
+        <div className='flex flex-col'>
+          {/*<div className='flex'>
+            <p className='text-blue-500'>
+              colour scheme:
+            </p>
+            <p className='text-red-400'>
+              colour scheme
+            </p>
+            <p className='text-yellow-200'>
+              colour scheme
+            </p>
+  </div>
+  */}
+          <div className='flex'>
+            <h3 className='text-purple-400'>
+              All activities
+            </h3>
+            {activities && activities.length > 0 ?
+              <SimpleBarChar activityData={activities} /> :
+              <p>No activities data to display.</p>
+            }
+          </div>
+          <div className='flex'>
+            <h3 className='text-purple-400'>
+              RUN
+            </h3>
+            {run && run.length > 0 ?
+              <SimpleBarChar activityData={run} /> :
+              <p>No running data to display.</p>
+            }
+          </div>
+          <div className='flex'>
+            <h3 className='text-purple-400'>
+              WALK
+            </h3>
+            {walk && walk.length > 0 ?
+              <SimpleBarChar activityData={walk} /> :
+              <p>No walking data to display.</p>
+            }
+          </div>
         </div>
-      )*/}
-
-        <p className='text-blue-500'>
-          colour scheme:
-        </p>
-        <p className='text-red-400'>
-          colour scheme
-        </p>
-        <p className='text-yellow-200'>
-          colour scheme
-        </p>
-        <p className='text-purple-400'>
-          colour scheme
-        </p>
-
-        <WorldMapChart />
       </div>
     </div>
   )
