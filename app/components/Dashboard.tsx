@@ -5,6 +5,8 @@ import { useAppSelector, useAppDispatch } from '@/store/reduxHooks';
 import { DatePicker } from '@/components/DatePicker';
 import { getActivities } from '@/store/stravaAPI/activitiesAPI';
 import { DateValueType } from 'react-tailwindcss-datepicker';
+import Dropdown from '@/components/Dropdown';
+import { ActivitiesInterface } from '@/types/types';
 
 const currentTime = new Date().valueOf()
 const today = new Date();
@@ -14,6 +16,7 @@ const Dashboard = () => {
     startDate: new Date(new Date().setDate(today.getDate() - 30)),
     endDate: today
   })
+  const [activityList, setActivityList] = useState<string[]>([])
 
   const activities = useAppSelector(state => state.activities.user_activities.activities)
   const run = useAppSelector(state => state.activities.activities_run)
@@ -28,6 +31,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(getActivities(period))
+    const sportTypes = activities.map(act => act.sport_type)
+    const uniqueName:string[] = sportTypes.filter((el, id)=> {
+        return sportTypes.indexOf(el) == id
+      })
+    
+    setActivityList(uniqueName)
   }, [])
 
   useEffect(() => {
@@ -70,6 +79,8 @@ const Dashboard = () => {
           value={date}
           today={today}
           onChange={handleValueChange}
+        />
+        <Dropdown list={activityList}
         />
       </div>
       <div className="flex basis-2/3 w-full px-5">
