@@ -65,7 +65,7 @@ const Dashboard = () => {
       {!activities || !sortedActivities[selectedType] ?
         <div className='flex justify-center align-middle animate-pulse'>
           <h1 className="text-4xl font-bold underline animate-bounce">
-            Just a secound please!
+            Just a second please!
           </h1>
         </div> :
         <div className="flex flex-row">
