@@ -2,10 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import SimpleBarChart from '@/components/charts/SimpleBarChart';
 import { useAppSelector, useAppDispatch } from '@/store/reduxHooks';
-import { DatePicker } from '@/components/DatePicker';
+import { DatePicker, Dropdown } from '@/components';
 import { getActivities } from '@/store/stravaAPI/activitiesAPI';
 import { DateValueType } from 'react-tailwindcss-datepicker';
-import Dropdown from '@/components/Dropdown';
 import { SortedData } from '@/types/types';
 
 const currentTime = new Date().valueOf()
@@ -63,25 +62,27 @@ const Dashboard = () => {
 
   return (
     <>
-      {!activities ?
-        <div>
-          <p>Loading</p>
+      {!activities || !sortedActivities[selectedType] ?
+        <div className='flex justify-center align-middle animate-pulse'>
+          <h1 className="text-4xl font-bold underline animate-bounce">
+            Just a secound please!
+          </h1>
         </div> :
         <div className="flex flex-row">
           <div className="flex flex-col basis-1/3 w-full justify-center px-5">
             <h1 className='dashboard_title'>
               Dashboard
             </h1>
-              <DatePicker
-                value={date}
-                today={today}
-                onChange={handleDateChange}
-              />
-              <Dropdown
-                listOptions={sportTypes}
-                onChange={handleTypeChange}
-                selected={selectedType}
-              />
+            <DatePicker
+              value={date}
+              today={today}
+              onChange={handleDateChange}
+            />
+            <Dropdown
+              listOptions={sportTypes}
+              onChange={handleTypeChange}
+              selected={selectedType}
+            />
           </div>
           <div className="flex basis-2/3 w-full px-5">
             <div className='flex flex-col'>
@@ -101,7 +102,7 @@ const Dashboard = () => {
                 <h3 className='text-purple-400'>
                   {selectedType ? selectedType : "All activities"}
                 </h3>
-                {activities && activities.length > 0 && sortedActivities[selectedType] && sortedActivities[selectedType].length> 0 ?
+                {activities && activities.length > 0 && sortedActivities[selectedType] && sortedActivities[selectedType].length > 0 ?
                   <SimpleBarChart activityData={selectedType ? sortedActivities[selectedType] : activities} /> :
                   <p>No activities data to display.</p>
                 }
