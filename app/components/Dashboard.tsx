@@ -101,7 +101,7 @@ const Dashboard = () => {
                 <h3 className='text-purple-400'>
                   {selectedType ? selectedType : "All activities"}
                 </h3>
-                {activities && activities.length > 0 ?
+                {activities && activities.length > 0 && sortedActivities[selectedType] && sortedActivities[selectedType].length> 0 ?
                   <SimpleBarChar activityData={selectedType ? sortedActivities[selectedType] : activities} /> :
                   <p>No activities data to display.</p>
                 }

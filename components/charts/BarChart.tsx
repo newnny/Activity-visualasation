@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import * as d3 from 'd3'
 import Axis from './chartComponents/Axis';
 import { ActivitiesInterface } from '@/types/types';
@@ -10,11 +10,6 @@ interface simpleBarChartProps {
 export const SimpleBarChar: React.FC<simpleBarChartProps> = ({
   activityData
 }) => {
-  const [data, setData] = useState<ActivitiesInterface[]>([])
-
-  useEffect(()=> {
-    activityData && activityData.length> 0 && setData(activityData)
-  }, [activityData])
 
   const xAccessor = (d: ActivitiesInterface): string => (d && d !== undefined && d !== null) ? d.start_date : ""
   const yAccessor = (d: ActivitiesInterface): number => d!.distance / 1000
@@ -30,7 +25,7 @@ export const SimpleBarChar: React.FC<simpleBarChartProps> = ({
     }
   }
 
-  const startDate: string[] = data!.map(d => d.start_date)
+  const startDate: string[] = activityData!.map(d => d.start_date)
 
   const xScale = startDate && d3.scaleBand()
     .domain(startDate as string[])
@@ -78,7 +73,7 @@ export const SimpleBarChar: React.FC<simpleBarChartProps> = ({
             text='Distance (km)'
             color='white'
           />
-          {data && data.length > 0 && data.map((d, id) => {
+          {activityData && activityData.length > 0 && activityData.map((d, id) => {
             const xAccessorValue = xAccessor(d)
             const xValue = xScale(xAccessorValue)
             if (xValue !== undefined) {
@@ -87,7 +82,7 @@ export const SimpleBarChar: React.FC<simpleBarChartProps> = ({
                   <rect
                     x={xValue + (barPadding / 2)}
                     y={yScale(yAccessor(d))}
-                    width={d3.max([0, dimensions.width / data.length - barPadding])}
+                    width={d3.max([0, dimensions.width / activityData.length - barPadding])}
                     height={dimensions.height - dimensions.margin.bottom - yScale(yAccessor(d))}
                     fill={"cornflowerblue"}
                   />
