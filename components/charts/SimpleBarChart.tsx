@@ -7,7 +7,7 @@ interface simpleBarChartProps {
   activityData: ActivitiesInterface[]
 }
 
-export const SimpleBarChar: React.FC<simpleBarChartProps> = ({
+const SimpleBarChart: React.FC<simpleBarChartProps> = ({
   activityData
 }) => {
 
@@ -95,3 +95,5 @@ export const SimpleBarChar: React.FC<simpleBarChartProps> = ({
     </svg>
   )
 }
+
+export default SimpleBarChart

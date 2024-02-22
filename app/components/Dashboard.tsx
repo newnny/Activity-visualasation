@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { SimpleBarChar } from '@/components/charts/BarChart';
+import SimpleBarChart from '@/components/charts/SimpleBarChart';
 import { useAppSelector, useAppDispatch } from '@/store/reduxHooks';
 import { DatePicker } from '@/components/DatePicker';
 import { getActivities } from '@/store/stravaAPI/activitiesAPI';
@@ -102,7 +102,7 @@ const Dashboard = () => {
                   {selectedType ? selectedType : "All activities"}
                 </h3>
                 {activities && activities.length > 0 && sortedActivities[selectedType] && sortedActivities[selectedType].length> 0 ?
-                  <SimpleBarChar activityData={selectedType ? sortedActivities[selectedType] : activities} /> :
+                  <SimpleBarChart activityData={selectedType ? sortedActivities[selectedType] : activities} /> :
                   <p>No activities data to display.</p>
                 }
               </div>
