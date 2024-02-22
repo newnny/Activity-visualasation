@@ -1,14 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getActivities } from "../stravaAPI/activitiesAPI";
-import { ActivitiesInterface, TokenAndActivities } from "@/types/types";
+import { ActivitiesInterface, TokenAndActivities, SortedData } from "@/types/types";
 
 type activitiesState = {
   loading: boolean;
   user_activities: TokenAndActivities;
-  activities_run: ActivitiesInterface[];
-  activities_walk: ActivitiesInterface[];
-  activities_ride: ActivitiesInterface[];
-  //activities_sail: ActivitiesInterface[];
+  sorted_activities:{};
 };
 
 const initialState: activitiesState = {
@@ -17,10 +14,7 @@ const initialState: activitiesState = {
     token_expiring_date: 0,
     activities: [],
   },
-  activities_run: [],
-  activities_walk: [],
-  activities_ride: [],
-  //activities_sail: [],
+  sorted_activities:{}
 };
 
 export const activitySlice = createSlice({
@@ -51,20 +45,19 @@ export const activitySlice = createSlice({
       state.loading = true;
     });
     builder.addCase(getActivities.fulfilled, (state, action) => {
+      const all_data: TokenAndActivities = action.payload;
+      const activities: ActivitiesInterface[] = all_data.activities;
+      const sortedData = activities && activities.reduce((acc:SortedData, curr) => {
+        if (!acc[curr.sport_type]) {
+          acc[curr.sport_type] = []; 
+        }
+        acc[curr.sport_type].push(curr); 
+        return acc;
+      }, {});
       if (action.payload) {
-        const all_data: TokenAndActivities = action.payload;
-        const activities: ActivitiesInterface[] = all_data.activities;
         state.user_activities = all_data;
+        state.sorted_activities = {All: activities, ...sortedData};
         state.loading = false;
-        state.activities_run = activities.filter(
-          (activity) => activity.sport_type === "Run"
-        );
-        state.activities_walk = activities.filter(
-          (activity) => activity.sport_type === "Walk"
-        );
-        state.activities_ride = activities.filter(
-          (activity) => activity.sport_type === "Ride"
-        );
       } else {
         console.log("action.payload is null or undefined");
       }

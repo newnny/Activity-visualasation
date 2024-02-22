@@ -4,7 +4,11 @@ export type selectedDates = {
   endDate: Date;
 }
 
+
 //Strava API response data type
+export interface SortedData {
+  [key: string]: ActivitiesInterface[];
+}
 export interface TokenAndActivities {
 token_expiring_date: number;
 activities: ActivitiesInterface[]
