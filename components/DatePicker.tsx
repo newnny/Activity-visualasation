@@ -10,7 +10,7 @@ interface DatepickerProps {
     endDate: Date;
   };
 }
-export const DatePicker:React.FC<DatepickerProps> = ({
+const DatePicker:React.FC<DatepickerProps> = ({
   onChange,
   value,
   today
@@ -28,3 +28,5 @@ export const DatePicker:React.FC<DatepickerProps> = ({
 
   )
 }
+
+export default DatePicker

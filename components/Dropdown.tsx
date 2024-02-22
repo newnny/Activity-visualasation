@@ -10,7 +10,6 @@ interface DropdownProps {
 }
 
 const Dropdown: React.FC<DropdownProps> = ({ listOptions, selected, onChange }) => {
-  console.log(selected, "selected")
   return (
     <div className="top-16 w-72">
       <Listbox value={selected} onChange={onChange}>
