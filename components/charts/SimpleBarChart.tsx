@@ -11,7 +11,7 @@ const SimpleBarChart: React.FC<simpleBarChartProps> = ({
   activityData
 }) => {
 
-  const xAccessor = (d: ActivitiesInterface): string => (d && d !== undefined && d !== null) ? d.start_date : ""
+  const xAccessor = (d: ActivitiesInterface): string => (d && d !== undefined && d !== null) ? d.start_date.substring(0, 10) : ""
   const yAccessor = (d: ActivitiesInterface): number => d!.distance / 1000
 
   let dimensions = {
@@ -24,8 +24,8 @@ const SimpleBarChart: React.FC<simpleBarChartProps> = ({
       left: 50
     }
   }
-
-  const startDate: string[] = activityData!.map(d => d.start_date)
+  
+  const startDate: string[] = activityData!.map(d => d.start_date.substring(0, 10))
 
   const xScale = startDate && d3.scaleBand()
     .domain(startDate as string[])
