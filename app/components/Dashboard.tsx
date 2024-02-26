@@ -6,11 +6,13 @@ import { DatePicker, Dropdown } from '@/components';
 import { getActivities } from '@/store/stravaAPI/activitiesAPI';
 import { DateValueType } from 'react-tailwindcss-datepicker';
 import { SortedData } from '@/types/types';
+import RunnerAnim from '@/components/animations/RunnerAnim';
 
 const currentTime = new Date().valueOf()
 const today = new Date();
 
 const Dashboard = () => {
+  const [showMenu, setShowMenu] = useState<boolean>(false)
   const [date, setDate] = useState({
     startDate: new Date(new Date().setDate(today.getDate() - 30)),
     endDate: today
@@ -69,10 +71,14 @@ const Dashboard = () => {
           </h1>
         </div> :
         <div className="flex flex-row">
-          <div className="flex flex-col basis-1/3 w-full justify-center px-5">
+          <div className='flex flex-col'>
             <h1 className='dashboard_title'>
               Dashboard
             </h1>
+            <button onClick={() => setShowMenu(!showMenu)} className='text-neutral-400'>
+              show menu
+            </button>
+          <div className={showMenu ? "flex flex-col basis-1/3 w-full justify-center px-5" : "hidden"}>
             <DatePicker
               value={date}
               today={today}
@@ -84,8 +90,10 @@ const Dashboard = () => {
               selected={selectedType}
             />
           </div>
+          </div>
           <div className="flex basis-2/3 w-full px-5">
             <div className='flex flex-col'>
+              <RunnerAnim data={selectedType ? sortedActivities[selectedType] : activities} />
               {/*<div className='flex'>
                 <p className='text-blue-500'>
                   colour scheme:

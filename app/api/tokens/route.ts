@@ -50,9 +50,10 @@ export const POST = async (req: Request) => {
             },
           };
         });
+        const sortByDate = modifiedRes.sort((a,b)=> new Date(a.start_date).getTime() - new Date(b.start_date).getTime())
         const tokenAndActivities:TokenAndActivities = {
           token_expiring_date: reformattingTokenRes.expires_at,
-          activities: modifiedRes
+          activities: sortByDate
         }
         return new Response(JSON.stringify(tokenAndActivities));
       }

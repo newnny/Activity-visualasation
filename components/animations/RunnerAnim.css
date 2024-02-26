@@ -1,0 +1,29 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  width: 70vw;
+}
+
+.line {
+  height: 1px;
+  margin-bottom: 20px;
+  width: 100%;
+  position: relative;
+}
+
+.line svg{
+  width: 100%;
+  height: 500px;
+  position: absolute;
+  top: 250px;
+}
+
+.line svg path{
+  stroke: grey;
+  stroke-width: 1px;
+  fill: none;
+}
+ 
+.line g running-shoe {
+  position: relative;
+}
