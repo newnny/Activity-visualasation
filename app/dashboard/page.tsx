@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import SimpleBarChart from '@/components/charts/SimpleBarChart';
 import { useAppSelector, useAppDispatch } from '@/store/reduxHooks';
 import { DatePicker, Dropdown } from '@/components';
-import { getActivities } from '@/store/stravaAPI/activitiesAPI';
+import { getUserActivities } from '@/store/stravaAPI/activitiesAPI';
+import { getUserRefreshToken } from '@/store/stravaAPI/token';
 import { DateValueType } from 'react-tailwindcss-datepicker';
 import { SortedData } from '@/types/types';
 import RunnerAnim from '@/components/animations/RunnerAnim';
@@ -30,9 +31,13 @@ const Dashboard = () => {
     before: Math.floor(date.endDate.getTime() / 1000.0)
   }
 
-  useEffect(() => {
-    dispatch(getActivities(period))
-  }, [])
+{/*  
+after initall data fetcing in re-direct page
+data could re-fetch in theses 2 cases
+a) when the access_token has been expired
+b) when the fetching data period has been changed
+  b-1) token has been expired, then get refresh token first -> get desired period of data.
+  b-2) toekn is sitll valid, just call the getActivity with desired period of date.
 
   useEffect(() => {
     if (currentTime > tokenExpiration) {
@@ -43,7 +48,7 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(getActivities(period))
   }, [date.startDate, date.endDate])
-
+*/}
 
   const handleDateChange = (newValue: DateValueType) => {
     //selectedDate's type has to match with DatePicker's newValue type

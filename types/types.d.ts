@@ -6,6 +6,19 @@ export type selectedDates = {
 
 
 //Strava API response data type
+export type AuthRequest = {
+  auth_code: string;
+  after: number;
+  before: number;
+}
+export interface TokenExchangeRes {
+  token_type: string;
+  expires_at: number;
+  expires_in: number;
+  refresh_token: string;
+  access_token: string;
+  athlete: {}
+}
 export interface SortedData {
   [key: string]: ActivitiesInterface[];
 }

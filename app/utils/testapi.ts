@@ -2,7 +2,6 @@ const clientId: string = process.env.NEXT_PUBLIC_CLIENT_ID as string;
 const clicentSecret: string = process.env.NEXT_PUBLIC_CLIENT_SECRET as string;
 const refreshToken: string = process.env.NEXT_PUBLIC_REFRESH_TOKEN as string;
 const access_token = process.env.NEXT_PUBLIC_ACCESS_TOKEN;
-
 const tokenURL = "https://www.strava.com/oauth/token"
 const activitiesApiURL =
   "https://www.strava.com/api/v3/athlete/activities?page=5&per_page=100";
@@ -26,3 +25,4 @@ export const getTestActivities = async () => {
   });
   return res.json();
 };
+

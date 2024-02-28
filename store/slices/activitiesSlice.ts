@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getActivities } from "../stravaAPI/activitiesAPI";
+import { getActivities, getUserActivities } from "../stravaAPI/activitiesAPI";
 import { ActivitiesInterface, TokenAndActivities, SortedData } from "@/types/types";
 
 type activitiesState = {
@@ -41,6 +41,33 @@ export const activitySlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(getUserActivities.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getUserActivities.fulfilled, (state, action) => {
+      const all_data: TokenAndActivities = action.payload;
+      const activities: ActivitiesInterface[] = all_data ? all_data.activities: [];
+      const sortedData = activities && activities.reduce((acc:SortedData, curr) => {
+        if (!acc[curr.sport_type]) {
+          acc[curr.sport_type] = []; 
+        }
+        acc[curr.sport_type].push(curr); 
+        return acc;
+      }, {});
+      if (action.payload) {
+        state.user_activities = all_data;
+        state.sorted_activities = {All: activities, ...sortedData};
+        state.loading = false;
+      } else {
+        console.log("action.payload is null or undefined");
+      }
+    });
+    builder.addCase(getUserActivities.rejected, (state) => {
+      state.loading = false;
+      throw new Error("Fetching api failed.");
+    });
+    
+    {/*Below codes: local testing code with personal tokens */}
     builder.addCase(getActivities.pending, (state) => {
       state.loading = true;
     });

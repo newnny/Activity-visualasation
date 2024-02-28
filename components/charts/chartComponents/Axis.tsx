@@ -31,13 +31,11 @@ const Axis = ({ strScale, numScale, timeScale, transform, position, x, y, text, 
             )
             .selectAll(".tick line")
             .attr("stroke", "#bbbbbb")
-            .attr("fill", "white")
         } else if (strScale) {
           d3.select(ref.current)
             .call(d3.axisBottom(strScale))
             .selectAll("text")
             .attr("transform", "translate(-10,17)rotate(-50)")
-            .attr("fill", "white")
         } else if (timeScale) {
           d3.select(ref.current)
             .call(d3.axisBottom(timeScale)
@@ -47,7 +45,6 @@ const Axis = ({ strScale, numScale, timeScale, transform, position, x, y, text, 
             )
             .selectAll(".tick line")
             .attr("stroke", "#bbbbbb")
-            .attr("fill", "white");
         }
       } else if (position === "left") {
         if (numScale) {
@@ -59,11 +56,9 @@ const Axis = ({ strScale, numScale, timeScale, transform, position, x, y, text, 
             )
             .selectAll(".tick line")
             .attr("stroke", "#bbbbbb")
-            .attr("fill", "white");
         } else if (strScale) {
           d3.select(ref.current)
             .call(d3.axisLeft(strScale))
-            .attr("fill", "white");
         } else if (timeScale) {
           d3.select(ref.current)
             .call(d3.axisLeft(timeScale)
@@ -73,7 +68,6 @@ const Axis = ({ strScale, numScale, timeScale, transform, position, x, y, text, 
             )
             .selectAll(".tick line")
             .attr("stroke", "#bbbbbb")
-            .attr("fill", "white");
         }
       }
     }
