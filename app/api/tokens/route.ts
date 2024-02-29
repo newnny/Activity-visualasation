@@ -1,7 +1,7 @@
 import { Token, TokenBody, ActivitiesInterface, TokenAndActivities } from "@/types/types";
 
 const clientId: string = process.env.NEXT_PUBLIC_CLIENT_ID as string;
-const clientSecret: string = process.env.NEXT_PUBLIC_CLIENT_SECRET as string;
+const clientSecret: string = process.env.CLIENT_SECRET as string;
 const refreshToken: string = process.env.NEXT_PUBLIC_REFRESH_TOKEN as string;
 const tokenURL = "https://www.strava.com/oauth/token";
 const TOKEN_ENDPOINT = `${tokenURL}?client_id=${clientId}&client_secret=${clientSecret}&grant_type=refresh_token&refresh_token=${refreshToken}`;

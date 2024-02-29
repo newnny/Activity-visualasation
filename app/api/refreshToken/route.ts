@@ -6,7 +6,7 @@ import {
 } from "@/types/types";
 import { cookies } from "next/headers";
 const clientId: string = process.env.NEXT_PUBLIC_CLIENT_ID as string;
-const clientSecret: string = process.env.NEXT_PUBLIC_CLIENT_SECRET as string;
+const clientSecret: string = process.env.CLIENT_SECRET as string;
 const tokenURL = "https://www.strava.com/oauth/token";
 const athletesURL = "https://www.strava.com/api/v3/athlete/activities";
 const ATHLETES_ENDPOINT = (time_period: string) => {

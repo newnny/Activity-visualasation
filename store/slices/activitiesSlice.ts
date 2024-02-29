@@ -74,7 +74,7 @@ export const activitySlice = createSlice({
     });
     builder.addCase(getAuthActivities.fulfilled, (state, action) => {
       const all_data: TokenAndActivities = action.payload;
-      const activities: ActivitiesInterface[] = all_data.activities;
+      const activities: ActivitiesInterface[] = all_data && all_data.activities;
       const sortedData =
         activities &&
         activities.reduce((acc: SortedData, curr) => {

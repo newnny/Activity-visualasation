@@ -3,7 +3,7 @@ import { AuthRequest } from "@/types/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const clientId: string = process.env.NEXT_PUBLIC_CLIENT_ID as string;
-const clicentSecret: string = process.env.NEXT_PUBLIC_CLIENT_SECRET as string;
+const clicentSecret: string = process.env.CLIENT_SECRET as string;
 const refreshToken: string = process.env.NEXT_PUBLIC_REFRESH_TOKEN as string;
 const baseURL = "https://www.strava.com/oauth/token";
 
