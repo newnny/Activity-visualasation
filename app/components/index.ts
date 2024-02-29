@@ -1,4 +1,4 @@
-import Dashboard from "./Dashboard";
+import Dashboard from "../dashboard/page"
 
 export {
   Dashboard

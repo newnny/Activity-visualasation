@@ -1,4 +1,3 @@
-import { Dashboard } from "./components";
 import Login from "./components/Login";
 
 export default async function Home() {
