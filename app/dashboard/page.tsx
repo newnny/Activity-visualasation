@@ -7,6 +7,7 @@ import { getAuthActivities, getActivityWithRefreshToken } from '@/store/stravaAP
 import { DateValueType } from 'react-tailwindcss-datepicker';
 import { SortedData } from '@/types/types';
 import RunnerAnim from '@/components/animations/RunnerAnim';
+import DonutChart from '@/components/charts/DonutChart';
 
 const currentTime = new Date().valueOf()
 const today = new Date();
@@ -15,17 +16,15 @@ const Dashboard = () => {
   const activities = useAppSelector(state => state.activities.user_activities.activities)
   const sortedActivities: SortedData = useAppSelector(state => state.activities.sorted_activities)
   const tokenExpiration = useAppSelector(state => state.activities.user_activities.token_expiring_date)
-  console.log(tokenExpiration, "tokenExpiration")
   const sportTypes = sortedActivities && Object.keys(sortedActivities)
   const dispatch = useAppDispatch()
-
+  
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [selectedType, setSelectedType] = useState("All")
   const [date, setDate] = useState({
     startDate: new Date(new Date().setDate(today.getDate() - 30)),
     endDate: today
   })
-  const [refresh, setRefresh] = useState<boolean>(false)
 
   const period = {
     after: Math.floor(date.startDate.getTime() / 1000.0),
@@ -122,7 +121,11 @@ const Dashboard = () => {
                   {selectedType ? selectedType : "All activities"}
                 </h3>
                 {activities && activities.length > 0 && sortedActivities[selectedType] && sortedActivities[selectedType].length > 0 ?
-                  <SimpleBarChart activityData={selectedType ? sortedActivities[selectedType] : activities} /> :
+                  <>
+                  <SimpleBarChart activityData={selectedType ? sortedActivities[selectedType] : activities} /> 
+                  <DonutChart data={sortedActivities}/>
+                  </>
+                  :
                   <p>No activities data to display.</p>
                 }
               </div>
