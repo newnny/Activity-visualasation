@@ -1,10 +1,9 @@
 'use client'
 import React, { useEffect } from 'react'
 import { useSearchParams, useRouter } from "next/navigation";
-import { useAppDispatch } from '@/store/reduxHooks';
-import { getUserActivities } from '@/store/stravaAPI/activitiesAPI';
+import { useAppDispatch, useAppSelector } from '@/store/reduxHooks';
 import { AuthRequest } from '@/types/types';
-
+import { getAuthExchangeTokenAndActivities } from '@/store/stravaAPI/activitiesAPI';
 
 const RedirectParams = () => {
   const dispatch = useAppDispatch()
@@ -33,11 +32,11 @@ const RedirectParams = () => {
             after: period.after,
             before: period.before
           }
-          dispatch(await getUserActivities(authRequest))
+          dispatch(await getAuthExchangeTokenAndActivities(authRequest))
           return await router.push('/dashboard')
         }
       } catch (error) {
-        console.log(error, "error")
+        console.log("Error message:", error)
         return router.push('/')
       }
     }
@@ -45,8 +44,10 @@ const RedirectParams = () => {
   }, [])
 
   return (
-    <div>
-      <h1>Loading</h1>
+    <div className='flex justify-center align-middle'>
+      <h1 className='text-3xl'>
+        Loading
+      </h1>
     </div>
   )
 }

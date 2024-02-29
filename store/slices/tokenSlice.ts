@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getRefreshToken, getUserRefreshToken } from "../stravaAPI/token";
+import { getRefreshToken } from "../stravaAPI/token";
 
 type TokenState = {
   loading: boolean;
@@ -31,24 +31,6 @@ export const tokenSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getUserRefreshToken.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(getUserRefreshToken.fulfilled, (state, action) => {
-      if (action.payload) {
-        state.refreshToken = action.payload.refreshToken;
-        state.expirationTime = action.payload.expirationTime;
-        state.accessToken = action.payload.accessToken;
-        state.loading = false;
-      } else {
-        console.log("action.payload is null or undefined");
-      }
-    });
-    builder.addCase(getUserRefreshToken.rejected, (state) => {
-      state.loading = false;
-      throw new Error("Fetching api failed.");
-    });
-
     builder.addCase(getRefreshToken.pending, (state) => {
       state.loading = true;
     });

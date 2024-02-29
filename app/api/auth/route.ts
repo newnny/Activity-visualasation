@@ -15,6 +15,14 @@ import {
   TokenAndActivities,
   TokenExchangeRes,
 } from "@/types/types";
+import { cookies } from "next/headers";
+
+/*
+This endpoint is called when user loggined-in to get activities data with strava authenticated code.
+In this endpoint includes 2 api calls:
+1) initial authentication to receive exchange tokens with the redirect page uri param's "code".
+2) getting activities with the received exchange tokens
+*/
 
 export const POST = async (req: Request) => {
   const authRequest: AuthRequest = await req.json();
@@ -27,7 +35,8 @@ export const POST = async (req: Request) => {
       }
     );
     const authRes: TokenExchangeRes = await response.json();
-
+    cookies().set("access_token", authRes.access_token);
+    cookies().set("refresh_token", authRes.refresh_token);
     if (authRes) {
       const accessToken = authRes.access_token;
       const time_period = `before=${authRequest.before}&after=${authRequest.after}`;

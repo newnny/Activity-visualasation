@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getActivities, getUserActivities } from "../stravaAPI/activitiesAPI";
+import { getActivities, getAuthExchangeTokenAndActivities } from "../stravaAPI/activitiesAPI";
 import { ActivitiesInterface, TokenAndActivities, SortedData } from "@/types/types";
 
 type activitiesState = {
@@ -21,30 +21,20 @@ export const activitySlice = createSlice({
   name: "activityData",
   initialState,
   reducers: {
-    addActivities: (
+    updateRefreshToken: (
       state,
       action: PayloadAction<{
-        id: number;
-        sport_type: string;
-        name: string;
-        start_date: string;
-        distance: number;
-        average_speed: number;
-        max_speed: number;
-        map: {
-          id: string;
-          summary_polyline: string;
-        };
+        refresh_token: string;
       }>
     ) => {
-      action.payload;
+      action.payload
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getUserActivities.pending, (state) => {
+    builder.addCase(getAuthExchangeTokenAndActivities.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(getUserActivities.fulfilled, (state, action) => {
+    builder.addCase(getAuthExchangeTokenAndActivities.fulfilled, (state, action) => {
       const all_data: TokenAndActivities = action.payload;
       const activities: ActivitiesInterface[] = all_data ? all_data.activities: [];
       const sortedData = activities && activities.reduce((acc:SortedData, curr) => {
@@ -62,7 +52,7 @@ export const activitySlice = createSlice({
         console.log("action.payload is null or undefined");
       }
     });
-    builder.addCase(getUserActivities.rejected, (state) => {
+    builder.addCase(getAuthExchangeTokenAndActivities.rejected, (state) => {
       state.loading = false;
       throw new Error("Fetching api failed.");
     });
@@ -96,4 +86,4 @@ export const activitySlice = createSlice({
   },
 });
 
-export const { addActivities } = activitySlice.actions;
+export const { updateRefreshToken } = activitySlice.actions;

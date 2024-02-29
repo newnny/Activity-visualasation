@@ -6,6 +6,17 @@ export type selectedDates = {
 
 
 //Strava API response data type
+export type ActivityRequest = {
+  expires_at: number;
+  after: number;
+  before: number;
+}
+
+export type RefreshRequest = {
+  after: number;
+  before: number;
+}
+
 export type AuthRequest = {
   auth_code: string;
   after: number;
