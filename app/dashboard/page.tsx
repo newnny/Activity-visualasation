@@ -15,7 +15,7 @@ const Dashboard = () => {
   const activities = useAppSelector(state => state.activities.user_activities.activities)
   const sortedActivities: SortedData = useAppSelector(state => state.activities.sorted_activities)
   const tokenExpiration = useAppSelector(state => state.activities.user_activities.token_expiring_date)
-
+console.log(tokenExpiration, "tokenExpiration")
   const sportTypes = sortedActivities && Object.keys(sortedActivities)
   const dispatch = useAppDispatch()
 
@@ -41,9 +41,8 @@ const Dashboard = () => {
   */}
 
 
-
   useEffect(() => {
-    if (currentTime > tokenExpiration) {
+    if (currentTime < tokenExpiration) {
       dispatch(getActivityWithRefreshToken({
         before: period.before,
         after: period.after
@@ -54,7 +53,7 @@ const Dashboard = () => {
   }, [currentTime > tokenExpiration])
 
   useEffect(() => {
-    if (currentTime > tokenExpiration) {
+    if (currentTime < tokenExpiration) {
       dispatch(getActivityWithRefreshToken({
         before: period.before,
         after: period.after
@@ -66,7 +65,6 @@ const Dashboard = () => {
         after: period.after
       }))
     }
-
   }, [date.startDate, date.endDate])
 
   const handleDateChange = (newValue: DateValueType) => {

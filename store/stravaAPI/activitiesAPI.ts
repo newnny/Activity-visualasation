@@ -1,6 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ActivityRequest, AuthRequest, RefreshRequest } from "@/types/types";
 
+export const getAuthActivities = createAsyncThunk(
+  "userActivities/fetch",
+  async (activityhRequest: ActivityRequest) => {
+    try {
+      const res = await fetch("http://localhost:3000/api/activity", {
+        method: "POST",
+        body: JSON.stringify(activityhRequest),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        return data;
+      } else {
+        throw new Error("Failed to authenticate");
+      }
+    } catch (error) {
+      console.log("Fail to getAuthActivitieis, Error message:", error);
+    }
+  }
+);
+
 export const getActivityWithRefreshToken = createAsyncThunk(
   "userRefreshTokens/fetch",
   async (refreshRequest: RefreshRequest) => {
@@ -41,27 +61,8 @@ export const getAuthExchangeTokenAndActivities = createAsyncThunk(
   }
 );
 
-//initial activity with auth code
-export const getAuthActivities = createAsyncThunk(
-  "userActivities/fetch",
-  async (activityhRequest: ActivityRequest) => {
-    try {
-      const res = await fetch("http://localhost:3000/api/activity", {
-        method: "POST",
-        body: JSON.stringify(activityhRequest),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        return data;
-      } else {
-        throw new Error("Failed to authenticate");
-      }
-    } catch (error) {
-      console.log("Fail to getAuthActivitieis, Error message:", error);
-    }
-  }
-);
 
+/* ------ For testing ------ 
 export const getActivities = createAsyncThunk(
   "activities/fetch",
   async (activityRequest: ActivityRequest) => {
@@ -81,3 +82,4 @@ export const getActivities = createAsyncThunk(
     }
   }
 );
+*/

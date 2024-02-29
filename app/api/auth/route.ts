@@ -35,8 +35,6 @@ export const POST = async (req: Request) => {
       }
     );
     const authRes: TokenExchangeRes = await response.json();
-    cookies().set("access_token", authRes.access_token);
-    cookies().set("refresh_token", authRes.refresh_token);
     if (authRes) {
       const accessToken = authRes.access_token;
       const time_period = `before=${authRequest.before}&after=${authRequest.after}`;
@@ -75,6 +73,9 @@ export const POST = async (req: Request) => {
           token_expiring_date: authRes.expires_at * 1000,
           activities: sortByDate,
         };
+        cookies().set("access_token", authRes.access_token);
+        cookies().set("refresh_token", authRes.refresh_token);
+        cookies().set("token_expiration", tokenAndActivities.token_expiring_date.toString());
         return new Response(JSON.stringify(tokenAndActivities));
       }
     } else {

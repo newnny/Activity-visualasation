@@ -32,8 +32,6 @@ export const POST = async (req: Request) => {
 
       const refreshTokensRes: Token = await refreshTokens.json();
       if (refreshTokensRes) {
-        cookies().set("access_token", refreshTokensRes.access_token);
-        cookies().set("refresh_token", refreshTokensRes.refresh_token);
         const accessToken = refreshTokensRes.access_token;
         const time_period = `before=${refreshRequest.before}&after=${refreshRequest.after}`;
         const activityRes = await fetch(ATHLETES_ENDPOINT(time_period), {
@@ -73,6 +71,9 @@ export const POST = async (req: Request) => {
             token_expiring_date: refreshTokensRes.expires_at * 1000,
             activities: sortByDate,
           };
+          cookies().set("access_token", refreshTokensRes.access_token);
+          cookies().set("refresh_token", refreshTokensRes.refresh_token);
+          cookies().set("token_expiration", tokenAndActivities.token_expiring_date.toString());
           return new Response(JSON.stringify(tokenAndActivities));
         }
       } else {

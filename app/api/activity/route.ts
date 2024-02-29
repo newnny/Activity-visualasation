@@ -15,6 +15,8 @@ export const POST = async (req: Request) => {
   const activityRequest: ActivityRequest = await req.json();
   const cookieStore = cookies();
   const accessToken: string | undefined =cookieStore.get("access_token")?.value;
+  const strTokenExp: string | undefined = cookieStore.get("token_expiration")?.value
+  const tokenExp: number|""|undefined = strTokenExp && +strTokenExp
   const time_period = `before=${activityRequest.before}&after=${activityRequest.after}`;
 
   try {
@@ -48,7 +50,7 @@ export const POST = async (req: Request) => {
           new Date(a.start_date).getTime() - new Date(b.start_date).getTime()
       );
       const tokenAndActivities: TokenAndActivities = {
-        token_expiring_date: activityRequest.expires_at,
+        token_expiring_date: activityRequest.expires_at == 0 ? typeof tokenExp == "number" ? tokenExp : new Date().valueOf() : activityRequest.expires_at,
         activities: sortByDate,
       };
       return new Response(JSON.stringify(tokenAndActivities));
