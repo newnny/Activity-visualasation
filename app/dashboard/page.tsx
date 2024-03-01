@@ -115,15 +115,15 @@ const Dashboard = () => {
           </div>
           <div className="flex basis-2/3 w-full px-5">
             <div className='flex flex-col'>
-              <RunnerAnim data={selectedType ? sortedActivities[selectedType] : activities} />
-              <div className='flex flex-col'>
+              {/*<RunnerAnim data={selectedType ? sortedActivities[selectedType] : activities} />*/}
+              <div className='flex flex-row'>
                 <h3 className='text-purple-400'>
                   {selectedType ? selectedType : "All activities"}
                 </h3>
                 {activities && activities.length > 0 && sortedActivities[selectedType] && sortedActivities[selectedType].length > 0 ?
                   <>
+                  <DonutChart data={sortedActivities} width={window.innerWidth*0.5} height={window.innerHeight/4}/>
                   <SimpleBarChart activityData={selectedType ? sortedActivities[selectedType] : activities} /> 
-                  <DonutChart data={sortedActivities}/>
                   </>
                   :
                   <p>No activities data to display.</p>

@@ -15,8 +15,8 @@ const SimpleBarChart: React.FC<simpleBarChartProps> = ({
   const yAccessor = (d: ActivitiesInterface): number => d!.distance / 1000
 
   let dimensions = {
-    width: window.innerWidth * 0.7,
-    height: 420,
+    width: window.innerWidth * 0.5,
+    height: window.innerHeight/3.5,
     margin: {
       top: 15,
       right: 15,
@@ -57,7 +57,7 @@ const SimpleBarChart: React.FC<simpleBarChartProps> = ({
             x={(dimensions.width - dimensions.margin.left) / 2}
             y={dimensions.margin.bottom}
             text='Date'
-            color='white'
+            color='black'
           />
           <Axis
             position='left'
@@ -71,7 +71,7 @@ const SimpleBarChart: React.FC<simpleBarChartProps> = ({
             x={-((dimensions.height - dimensions.margin.top - dimensions.margin.bottom) / 2)}
             y={- dimensions.margin.left + dimensions.margin.right}
             text='Distance (km)'
-            color='white'
+            color='black'
           />
           {activityData && activityData.length > 0 && activityData.map((d, id) => {
             const xAccessorValue = xAccessor(d)
