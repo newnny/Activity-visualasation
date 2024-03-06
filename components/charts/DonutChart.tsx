@@ -88,7 +88,7 @@ const DonutChart: React.FC<DonutChartProps> = ({ width, height, data, title, col
       }
     }
     return (
-      <g>
+      <g key={i}>
         <path
           key={i}
           d={slicePath ? slicePath : undefined}
