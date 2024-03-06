@@ -1,0 +1,20 @@
+.slice {
+  fill-opacity: 1;
+  stroke-width: 2px;
+}
+
+.slice.dimmed {
+  filter: saturate(0);
+  opacity: .1;
+  transition: opacity, filter;
+  transition-delay: .05s;
+  transition-duration: .05s;
+}
+
+.slice:hover {
+  cursor: pointer;
+  opacity: 1;
+  stroke: grey;
+  fill-opacity: 1;
+  stroke-width: 1px;
+}

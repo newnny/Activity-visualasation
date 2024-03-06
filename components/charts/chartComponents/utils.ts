@@ -1,10 +1,7 @@
-import { interpolate } from "d3";
 import React, {
   useState,
   useEffect,
   useLayoutEffect,
-  useRef,
-  useMemo,
 } from "react";
 
 export const callAccessor = (accessor: any, d: [], i: number) =>
