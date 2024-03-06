@@ -71,16 +71,16 @@ const DonutChart: React.FC<DonutChartProps> = ({ width, height, data, title, col
     const sliceTextRender = () => {
       if (!selectedSlice) {
         if (totalValue) {
-          return `${label} (${(value / totalValue * 100).toFixed(1)}%)`
+          return `${(value / totalValue * 100).toFixed(1)}%`
         } else {
           return label
         }
       } else {
         if (selectedSlice == label) {
           if (secondConvert) {
-            return `${label} ` + convertSectoHms(value)
+            return convertSectoHms(value)
           } else {
-            return `${label} (${value}${unit})`
+            return `${value} ${unit}`
           }
         } else {
           return ""

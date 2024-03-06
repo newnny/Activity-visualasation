@@ -7,7 +7,6 @@ interface LegendProps {
 }
 
 const Legend: React.FC<LegendProps> = ({ names, colors, width }) => {
-
   const legendItemSize = 14
   const legendSpacing = -4
 
@@ -16,7 +15,7 @@ const Legend: React.FC<LegendProps> = ({ names, colors, width }) => {
       {names.map((name, i) => {
         return (
           <svg key={i} height={legendItemSize*1.5} width={width/(names.length*1.5)}>
-            <g>
+            <g key={i} >
               <circle cx={legendItemSize} cy={legendItemSize} r={legendItemSize/2} fill={colors[i]} />
               <text
                 x={legendItemSize*1.7}
