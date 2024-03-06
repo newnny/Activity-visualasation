@@ -41,6 +41,7 @@ export const POST = async (req: Request) => {
             sport_type: item.sport_type,
             name: item.name,
             start_date: item.start_date,
+            moving_time: item.moving_time,
             distance: item.distance,
             average_speed: item.average_speed,
             max_speed: item.max_speed,

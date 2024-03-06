@@ -1,4 +1,10 @@
+//Chart types
+export type DonutChartDataType = {
+  type: string;
+  value: number;
+}
 
+//
 export type selectedDates = {
   startDate: Date;
   endDate: Date;
@@ -52,6 +58,7 @@ export interface ActivitiesInterface {
   sport_type: string;
   name: string;
   start_date: string;
+  moving_time:number;
   distance: number;
   average_speed: number;
   max_speed: number;

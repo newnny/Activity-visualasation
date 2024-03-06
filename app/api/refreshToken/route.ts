@@ -53,6 +53,7 @@ export const POST = async (req: Request) => {
                 name: item.name,
                 start_date: item.start_date,
                 distance: item.distance,
+                moving_time: item.moving_time,
                 average_speed: item.average_speed,
                 max_speed: item.max_speed,
                 map: {
