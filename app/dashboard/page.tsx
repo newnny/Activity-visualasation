@@ -125,7 +125,7 @@ const Dashboard = () => {
                 </h3>
                 {activities && activities.length > 0 && sortedActivities[selectedType] && sortedActivities[selectedType].length > 0 ?
                   <div ref={wrapperRef}>
-                    <div className='flex flex-row max-w-full'>
+                    <div className='flex flex-row max-w-full '>
                       <ActivityTypes
                         width={dimensions.width/3}
                         height={dimensions.height}

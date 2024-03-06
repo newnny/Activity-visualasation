@@ -1,42 +1,35 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 interface LegendProps {
-  names: string[],
-  colors: string[]
+  names: string[];
+  colors: string[];
+  width: number;
 }
 
-const Legend: React.FC<LegendProps> = ({ names, colors }) => {
-  const initialCY = 130
-  const [cy, setCY] = useState<number[]>([])
+const Legend: React.FC<LegendProps> = ({ names, colors, width }) => {
 
-  const generateMappedCY = () => {
-    const mappedCY: number[] = []
-    let initialValue = initialCY
-
-    for (let i = 0; i < names.length; i++) {
-      mappedCY.push(initialValue);
-      initialValue += 30
-    }
-
-    setCY(mappedCY)
-  }
-
-  useEffect(() => {
-    generateMappedCY()
-  }, [])
+  const legendItemSize = 14
+  const legendSpacing = -4
 
   return (
     <>
       {names.map((name, i) => {
-        cy.map(y => {
-          return (
-            <g key={i} width={300} height={300} fill='black'>
-              <circle cx={200} cy={y} r={6} fill={colors[i]} />
-              <text alignmentBaseline='middle' fontSize={15}>
+        return (
+          <svg key={i} height={legendItemSize*1.5} width={width/(names.length*1.5)}>
+            <g>
+              <circle cx={legendItemSize} cy={legendItemSize} r={legendItemSize/2} fill={colors[i]} />
+              <text
+                x={legendItemSize*1.7}
+                y={legendItemSize - legendSpacing}
+                fontSize={10}
+                alignmentBaseline='middle'
+                textAnchor='start'
+              >
                 {name}
               </text>
-            </g>)
-        })
+            </g>
+          </svg>
+        )
       })}
     </>
   )

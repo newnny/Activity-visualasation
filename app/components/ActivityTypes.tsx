@@ -24,23 +24,18 @@ const ActivityTypes: React.FC<ActivityTypesProps> = ({ data, width, height }) =>
   const colours = ["#e38a2b", "#859cbb", "#384c6a", "#F3D0AA", "#9594b7", "#c09741", "#f2e9da"]
 
   return (
-    <>
-     <Legend 
-     names={reformatData.map(d => d.type)} 
-     colors={colours} 
-     width={width}
-     />
-     <DonutChart
-      data={reformatData}
-      width={width}
-      height={height}
-      title={"Activity types"}
-      colours={colours}
-      totalValue={totalNumberOfTypes}
-      unit="activity"
-      secondConvert={false}
-    />
-    </>
+    <div className="flex flex-col">
+      <DonutChart
+        data={reformatData}
+        width={width}
+        height={height}
+        title={"Activity types"}
+        colours={colours}
+        totalValue={totalNumberOfTypes}
+        unit="activity"
+        secondConvert={false}
+      />
+    </div>
   )
 }
 

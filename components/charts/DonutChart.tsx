@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { DonutChartDataType } from '@/types/types'
 import styles from './chart.module.css'
 import { convertSectoHms } from '@/app/utils/utils';
-
+import Legend from './chartComponents/Legend';
 interface DonutChartProps {
   width: number;
   height: number;
@@ -32,7 +32,7 @@ const DonutChart: React.FC<DonutChartProps> = ({ width, height, data, title, col
 
   const pie = useMemo(() => {
     const pieGenerator = d3.pie<DonutChartDataType>()
-    .padAngle(0.005)
+      .padAngle(0.005)
       .value((d: DonutChartDataType): number => d.value)
       .sort(null)
     return pieGenerator(data)
@@ -117,6 +117,13 @@ const DonutChart: React.FC<DonutChartProps> = ({ width, height, data, title, col
 
   return (
     <div className='flex flex-col'>
+      <div className='flex justify-center items-center'>
+        <Legend
+          names={data.map(d => d.type)}
+          colors={colours}
+          width={width}
+        />
+      </div>
       <svg width={width} height={height}>
         <g transform={`translate(${width / 2}, ${height / 2})`}>
           {sliceShapes}
