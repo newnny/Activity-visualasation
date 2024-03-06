@@ -1,8 +1,8 @@
 import * as d3 from 'd3'
 import React, { useState, useMemo } from 'react';
 import { DonutChartDataType } from '@/types/types'
-import Legend from './chartComponents/Legend';
 import styles from './chart.module.css'
+import { convertSectoHms } from '@/app/utils/utils';
 
 interface DonutChartProps {
   width: number;
@@ -11,14 +11,15 @@ interface DonutChartProps {
   title: string;
   colours: string[];
   unit: string;
-  totalValue: number;
+  totalValue: number | null;
+  secondConvert: boolean;
 }
 
 const MARGIN = 30;
 const INFLEXION_PADDING = 10; // space between donut and label inflexion point
 
 
-const DonutChart: React.FC<DonutChartProps> = ({ width, height, data, title, colours, totalValue, unit }) => {
+const DonutChart: React.FC<DonutChartProps> = ({ width, height, data, title, colours, totalValue, unit, secondConvert }) => {
   const radius = Math.min(width, height) / 2 - MARGIN;
 
   const [selectedSlice, setSelectedSlice] = useState<string | null>(null);
@@ -31,6 +32,7 @@ const DonutChart: React.FC<DonutChartProps> = ({ width, height, data, title, col
 
   const pie = useMemo(() => {
     const pieGenerator = d3.pie<DonutChartDataType>()
+    .padAngle(0.005)
       .value((d: DonutChartDataType): number => d.value)
       .sort(null)
     return pieGenerator(data)
@@ -66,6 +68,25 @@ const DonutChart: React.FC<DonutChartProps> = ({ width, height, data, title, col
         ? styles.slice + " " + styles.dimmed
         : styles.slice;
 
+    const sliceTextRender = () => {
+      if (!selectedSlice) {
+        if (totalValue) {
+          return `${label} (${(value / totalValue * 100).toFixed(1)}%)`
+        } else {
+          return label
+        }
+      } else {
+        if (selectedSlice == label) {
+          if (secondConvert) {
+            return `${label} ` + convertSectoHms(value)
+          } else {
+            return `${label} (${value}${unit})`
+          }
+        } else {
+          return ""
+        }
+      }
+    }
     return (
       <g>
         <path
@@ -82,13 +103,12 @@ const DonutChart: React.FC<DonutChartProps> = ({ width, height, data, title, col
             y={inflexionPoint[1]}
             dominantBaseline="middle"
             fontSize={10}
+            style={{ maxWidth: width, textWrap: "wrap", wordWrap: "break-word" }}
+            className='w-8 text-wrap break-words'
             textAnchor={textAnchor}
+            fontWeight={selectedSlice === label ? "bold" : "inherit"}
           >
-            {!selectedSlice ?
-              `${label} (${(value / totalValue * 100).toFixed(1)}%)` :
-              selectedSlice && selectedSlice == label ?
-                `${label} (${value}${unit})` :
-                ""}
+            {sliceTextRender()}
           </text>
         }
       </g>

@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import SimpleBarChart from '@/components/charts/SimpleBarChart';
 import { useAppSelector, useAppDispatch } from '@/store/reduxHooks';
 import { DatePicker, Dropdown } from '@/components';
@@ -7,7 +7,9 @@ import { getAuthActivities, getActivityWithRefreshToken } from '@/store/stravaAP
 import { DateValueType } from 'react-tailwindcss-datepicker';
 import { SortedData } from '@/types/types';
 import RunnerAnim from '@/components/animations/RunnerAnim';
-import DonutChart from '@/components/charts/DonutChart';
+import { useDimensions } from '@/components/charts/chartComponents/utils';
+import { ActivityDistance, ActivityTime } from '../components';
+import ActivityTypes from '../components/ActivityTypes';
 
 const currentTime = new Date().valueOf()
 const today = new Date();
@@ -18,7 +20,7 @@ const Dashboard = () => {
   const tokenExpiration = useAppSelector(state => state.activities.user_activities.token_expiring_date)
   const sportTypes = sortedActivities && Object.keys(sortedActivities)
   const dispatch = useAppDispatch()
-  
+
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [selectedType, setSelectedType] = useState("All")
   const [date, setDate] = useState({
@@ -31,23 +33,24 @@ const Dashboard = () => {
     before: Math.floor(date.endDate.getTime() / 1000.0)
   }
 
-  {/*  
+  const wrapperRef = useRef(null)
+  const dimensions = useDimensions(wrapperRef)
+
+  /*  
   after initall data fetcing in re-direct page
   data could re-fetch in theses 2 cases
   a) when the access_token has been expired
   b) when the fetching data period has been changed
     b-1) token has been expired, then get refresh token first -> get desired period of data.
     b-2) toekn is sitll valid, just call the getActivity with desired period of date.
-  */}
-
-
+  */
   useEffect(() => {
     if (currentTime > tokenExpiration) {
       dispatch(getActivityWithRefreshToken({
         before: period.before,
         after: period.after
       }))
-    }else {
+    } else {
       return;
     }
   }, [tokenExpiration])
@@ -121,10 +124,26 @@ const Dashboard = () => {
                   {selectedType ? selectedType : "All activities"}
                 </h3>
                 {activities && activities.length > 0 && sortedActivities[selectedType] && sortedActivities[selectedType].length > 0 ?
-                  <>
-                  <DonutChart data={sortedActivities} width={window.innerWidth*0.5} height={window.innerHeight/4}/>
-                  <SimpleBarChart activityData={selectedType ? sortedActivities[selectedType] : activities} /> 
-                  </>
+                  <div ref={wrapperRef}>
+                    <div className='flex flex-row max-w-full'>
+                      <ActivityTypes
+                        width={dimensions.width/3}
+                        height={dimensions.height}
+                        data={sortedActivities}
+                      />
+                      <ActivityTime
+                        width={dimensions.width/3}
+                        height={dimensions.height}
+                        data={sortedActivities}
+                      />
+                      <ActivityDistance
+                        width={dimensions.width/3}
+                        height={dimensions.height}
+                        data={sortedActivities}
+                      />
+                    </div>
+                    <SimpleBarChart activityData={selectedType ? sortedActivities[selectedType] : activities} />
+                  </div>
                   :
                   <p>No activities data to display.</p>
                 }

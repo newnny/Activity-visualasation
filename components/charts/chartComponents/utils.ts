@@ -1,8 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useLayoutEffect,
-} from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 
 export const callAccessor = (accessor: any, d: [], i: number) =>
   typeof accessor === "function" ? accessor(d, i) : accessor;
@@ -10,8 +6,8 @@ export const callAccessor = (accessor: any, d: [], i: number) =>
 export const useDimensions = (targetRef: React.RefObject<HTMLDivElement>) => {
   const getDimensions = () => {
     return {
-      width: targetRef.current ? targetRef.current.offsetWidth : 0,
-      height: targetRef.current ? targetRef.current.offsetHeight : 0,
+      width: targetRef.current ? window.innerWidth * 0.8 : 0,
+      height: targetRef.current ? window.innerHeight / 3 : 0,
     };
   };
 
